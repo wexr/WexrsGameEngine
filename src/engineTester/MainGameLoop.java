@@ -5,6 +5,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 public class MainGameLoop {
 
@@ -14,6 +15,7 @@ public class MainGameLoop {
 
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
+        StaticShader shader = new StaticShader();
 
         // OpenGL expects vertices to be defined counter clockwise by default
         //All of our vertecis will be in 3 points, and no matter what point I chose to start from, ill just have to rotate counter clock wise to make the triangle.
@@ -48,15 +50,17 @@ public class MainGameLoop {
 
 
         while(!Display.isCloseRequested()) {
-            renderer.prepare();
-
             //game logic
+            renderer.prepare();
+            shader.start();
             //render
             renderer.render(model);
+            shader.stop();
             DisplayManager.updateDisplay();
 
         }
 
+        shader.cleanUP();
         loader.cleanUp();
 
         DisplayManager.closeDisplay();
