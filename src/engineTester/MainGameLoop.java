@@ -34,7 +34,10 @@ public class MainGameLoop {
 
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
         //ModelTexture texture = new ModelTexture(loader.loadTexture("andras1"));
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("leaf")));
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("green")));
+        ModelTexture texture = staticModel.getTexture();
+        texture.setShineDamper(10);
+        texture.setReflectivity(1);
 
         //First object
         Entity entity = new Entity(staticModel,  new Vector3f(0,-4,-25),0,0,0,1);
@@ -47,7 +50,7 @@ public class MainGameLoop {
             // entity object will move towards the right side while rotating on the Y axe.
             //entity.increasePosition(0, 0, -0.01f); //Move the object form left to right.
             //entity.increaseRotation(0, 1, 0);   // Rotate the picture on the y axe.
-            entity.increaseRotation(0,0.1f,0); // Rotate the new cube along x and y.
+            entity.increaseRotation(0,0.3f,0); // Rotate the new cube along x and y.
             camera.move();
             renderer.prepare();
             shader.start();
