@@ -6,11 +6,8 @@ import entities.Light;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
+import renderEngine.*;
 import models.RawModel;
-import renderEngine.OBJLoader;
-import renderEngine.Renderer;
 import shaders.StaticShader;
 import textures.ModelTexture;
 
@@ -21,8 +18,6 @@ public class MainGameLoop {
         DisplayManager.createDisplay();
 
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader);
 
         // OpenGL expects vertices to be defined counter clockwise by default
         //All of our vertecis will be in 3 points, and no matter what point I chose to start from, ill just have to rotate counter clock wise to make the triangle.
@@ -32,9 +27,9 @@ public class MainGameLoop {
 
 
 
-        RawModel model = OBJLoader.loadObjModel("dragon", loader);
+        RawModel model = OBJLoader.loadObjModel("stall", loader);
         //ModelTexture texture = new ModelTexture(loader.loadTexture("andras1"));
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("green")));
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(10);
         texture.setReflectivity(1);
@@ -45,25 +40,17 @@ public class MainGameLoop {
 
         Camera camera = new Camera();
 
+        MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()) {
-            //game logic
-            // entity object will move towards the right side while rotating on the Y axe.
-            //entity.increasePosition(0, 0, -0.01f); //Move the object form left to right.
-            //entity.increaseRotation(0, 1, 0);   // Rotate the picture on the y axe.
             entity.increaseRotation(0,0.3f,0); // Rotate the new cube along x and y.
             camera.move();
-            renderer.prepare();
-            shader.start();
-            //render
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
-            renderer.render(entity, shader);
-            shader.stop();
+            renderer.processEntity(entity); //object entity nr 1
+            renderer.render(light, camera);
             DisplayManager.updateDisplay();
 
         }
 
-        shader.cleanUP();
+        renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
 
