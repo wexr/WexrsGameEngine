@@ -34,12 +34,22 @@ public class MainGameLoop {
         TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
         fern.getTexture().setHasTransparency(true);
 
+
+        TexturedModel tree2 = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
+
         List<Entity> entities = new ArrayList<Entity>();
         Random random = new Random();
-        for(int i = 0; i < 500; i++){
-            entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 3));
+        for(int i = 0; i < 4000; i++){
+            //entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 3));    // old tree model
             entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
             entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.6f));
+        }
+
+        List<Entity> entities2 = new ArrayList<Entity>();
+        Random random2 = new Random();
+        for(int i = 0; i < 2000; i++){
+            entities2.add(new Entity(tree2, new Vector3f(random2.nextFloat() * 800 - 400, 0, random2.nextFloat() * -600), 0, 0, 0, 0.3f));
+
         }
 
 
@@ -62,6 +72,10 @@ public class MainGameLoop {
 
 
             for(Entity entity:entities){
+                renderer.processEntity(entity);
+            }
+
+            for(Entity entity:entities2){
                 renderer.processEntity(entity);
             }
             renderer.render(light, camera);
