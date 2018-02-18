@@ -37,18 +37,32 @@ public class MainGameLoop {
 
         TexturedModel tree2 = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
 
+        TexturedModel sign = new TexturedModel(OBJLoader.loadObjModel("sign", loader), new ModelTexture(loader.loadTexture("andras1")));
+        grass.getTexture().setUseFakeLightning(true);
+
+
+        //grass & fern
         List<Entity> entities = new ArrayList<Entity>();
         Random random = new Random();
-        for(int i = 0; i < 4000; i++){
+        for(int i = 0; i < 2500; i++){
             //entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 3));    // old tree model
             entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
             entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.6f));
         }
 
+        //low poly trees
         List<Entity> entities2 = new ArrayList<Entity>();
         Random random2 = new Random();
-        for(int i = 0; i < 2000; i++){
+        for(int i = 0; i < 1200; i++){
             entities2.add(new Entity(tree2, new Vector3f(random2.nextFloat() * 800 - 400, 0, random2.nextFloat() * -600), 0, 0, 0, 0.3f));
+
+        }
+
+        // big sign
+        List<Entity> entities3 = new ArrayList<Entity>();
+        for(int i = 0; i < 1; i++){
+            entities3.add(new Entity(sign, new Vector3f(-100, 0, -300), 0, -90, 0, 7));
+
 
         }
 
@@ -78,9 +92,15 @@ public class MainGameLoop {
             for(Entity entity:entities2){
                 renderer.processEntity(entity);
             }
+
+            for(Entity entity:entities3){
+                renderer.processEntity(entity);
+            }
             renderer.render(light, camera);
             DisplayManager.updateDisplay();
         }
+
+
 
 
         renderer.cleanUp();
