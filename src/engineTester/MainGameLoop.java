@@ -38,9 +38,9 @@ public class MainGameLoop {
 
         //***********************************************
 
-        RawModel model = OBJLoader.loadObjModel("tree", loader);
+        RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
 
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
+        TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
 
         TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
         grass.getTexture().setHasTransparency(true);
@@ -70,7 +70,7 @@ public class MainGameLoop {
         Random random2 = new Random();
         for(int i = 0; i < 200; i++){
             entities2.add(new Entity(tree2, new Vector3f(random2.nextFloat() * 800 - 400, 0, random2.nextFloat() * -600), 0, 0, 0, 0.3f));
-            entities2.add(new Entity(staticModel, new Vector3f(random2.nextFloat() * 800 - 400, 0, random2.nextFloat() * -600), 0, 0, 0, 3));    // old tree model
+            entities2.add(new Entity(tree, new Vector3f(random2.nextFloat() * 800 - 400, 0, random2.nextFloat() * -600), 0, 0, 0, 3));    // old tree model
 
         }
 
@@ -86,20 +86,23 @@ public class MainGameLoop {
 
 
 
-        Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
 
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
-        Camera camera = new Camera();
+
         MasterRenderer renderer = new MasterRenderer();
 
         //********** PLAYER OBJECT *************
 
         RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
+        RawModel girlModel = OBJLoader.loadObjModel("person", loader);
         TexturedModel stanfornBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+        TexturedModel playerModel = new TexturedModel(girlModel, new ModelTexture(loader.loadTexture("playerTexture")));
 
-        Player player = new Player(stanfornBunny, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+        Player player = new Player(stanfornBunny, new Vector3f(100, 0, -50), 0, 0, 0, 0.6f);
+        Camera camera = new Camera(player);
 
          //******************************************
 
